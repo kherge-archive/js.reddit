@@ -10,6 +10,14 @@
   <body>
     <div class="container">
       <div class="row">
+        <canvas id="chart" width="100%" height="40vh">
+          
+        </canvas>
+        <button id="racebtn" class="btn btn-primary" onclick="startRace()">Start Race!</button>
+        
+      </div>
+      <h4 id="racestatus">Not Started</h4>
+      <div class="row">
         <div class="col">
           <h1>Reddit Post</h1>
           <p>This page is in response to <a href="https://www.reddit.com/r/cars/comments/fbl31h/if_the_fastest_vehicle_produced_each_year_was_put/">this Reddit post</a> and <a href="https://www.reddit.com/r/cars/comments/fbl31h/if_the_fastest_vehicle_produced_each_year_was_put/fj4ynns/">comment</a>.</p>
@@ -33,6 +41,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
     <script type="text/javascript">
       // The car data is pulled from this Wikipedia page:
       // https://en.m.wikipedia.org/wiki/Production_car_speed_record
@@ -104,6 +113,81 @@
         order: [[3, 'desc']],
         paging: false
       });
+
+      var racing = false
+
+      function startRace(){
+        if(racing) {
+          racing = false
+          $('#racebtn').text("Start Race!")}
+        else {
+          racing = true
+          $('#racebtn').text("Stop Race!")
+        }
+        
+      }
+
+      function incrementMonth(oldData, year){
+        const allVehicles = Object.values(vehicles)
+        allVehicles.forEach((v, i)=>{
+          if(v.year == year && v.year!= 1894) {
+            oldData.datasets[0].data.push(v.topSpeed)
+            oldData.labels.push(v.vehicle)
+          }
+          if(v.year < year) {
+            oldData.datasets[0].data[i] += v.topSpeed * 8760
+          }
+        })
+        return oldData
+      }
+
+      var ctx = document.getElementById('chart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+          labels: [Object.values(vehicles)[0].vehicle],
+          datasets: [{
+            label: 'Miles Driven at top speed',
+            data: [0],
+            backgroundColor: Array(2000).fill(0).map(r=>`rgba(${Math.random()*255}, ${Math.random() *255}, ${Math.random() *255}, 0.2)`),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+      let currYear = Math.min(...Object.values(vehicles).map(v => v.year))
+      let index = 0
+      
+      setInterval(() => {
+        if(!racing) return
+        myChart.data = incrementMonth(myChart.data, currYear)
+        currYear = Object.values(vehicles)[index].year
+        
+        myChart.update()
+        index += 1
+        $('#racestatus').text(`Year: ${currYear}`)
+        if(index == Object.values(vehicles).length){
+          myChart.data = incrementMonth(myChart.data, currYear+1)
+          myChart.update()
+          racing = false
+          index = 0
+          currYear = Math.min(...Object.values(vehicles).map(v => v.year))
+          $('#racebtn').text("Start Race!")
+        }
+      }, 1500);
     </script>
   </body>
 </html>

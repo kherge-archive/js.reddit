@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <title>If the fastest vehicle produced each year was put on an infinitely straight track when it was produced, and raced at its top speed indefinitely, which car would currently be in the lead?</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1>Reddit Post</h1>
+          <p>This page is in response to <a href="https://www.reddit.com/r/cars/comments/fbl31h/if_the_fastest_vehicle_produced_each_year_was_put/">this Reddit post</a> and <a href="https://www.reddit.com/r/cars/comments/fbl31h/if_the_fastest_vehicle_produced_each_year_was_put/fj4ynns/">comment</a>.</p>
+          <h1>The Leg Work</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Vehicle</th>
+                <th class="text-center">Top Speed (MPH)</th>
+                <th class="text-center">Year</th>
+                <th class="text-center">Distance (Miles)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+      // The car data is pulled from this Wikipedia page:
+      // https://en.m.wikipedia.org/wiki/Production_car_speed_record
+      var vehicles = [
+        { "vehicle": "Benz Velo", "topSpeed": 12, "year": 1894 },
+        { "vehicle": "Jaguar XK120", "topSpeed": 124.6, "year": 1949 },
+        { "vehicle": "Mercedes-Benz 300SL", "topSpeed": 150.7, "year": 1955 },
+        { "vehicle": "Aston Martin DB4 GT", "topSpeed": 152, "year": 1959 },
+        { "vehicle": "Iso Grifo GL 365", "topSpeed": 161, "year": 1963 },
+        { "vehicle": "AC Cobra Mk III 427", "topSpeed": 165, "year": 1965 },
+        { "vehicle": "Lamborghini Miura P400", "topSpeed": 171, "year": 1967 },
+        { "vehicle": "Ferrari 365 GTB/4 Daytona", "topSpeed": 174, "year": 1968 },
+        { "vehicle": "Lamborghini Miura P400S", "topSpeed": 179.3, "year": 1969 },
+        { "vehicle": "Lamborghini Countach LP500 S", "topSpeed": 182, "year": 1982 },
+        { "vehicle": "Ruf BTR", "topSpeed": 190, "year": 1983 },
+        { "vehicle": "Porsche 959", "topSpeed": 198, "year": 1986 },
+        { "vehicle": "Ruf CTR", "topSpeed": 213, "year": 1987 },
+        { "vehicle": "McLaren F1", "topSpeed": 221, "year": 1993 },
+        { "vehicle": "Bugatti Veyron EB 16.4", "topSpeed": 253.81, "year": 2005 },
+        { "vehicle": "SSC Ultimate Aero TT", "topSpeed": 256.18, "year": 2007 },
+        { "vehicle": "Bugatti Veyron 16.4 Super Sport", "topSpeed": 267.856, "year": 2010 },
+        { "vehicle": "Koenigsegg Agera RS", "topSpeed": 277.87, "year": 2017 }
+      ];
+
+      var table = document.querySelector('table > tbody');
+      var number = new Intl.NumberFormat(
+        'en-US',
+        { maximumFractionDigits: 2 }
+      );
+
+      vehicles.forEach(vehicle => {
+        var row = document.createElement('tr');
+        var name = document.createElement('td');
+        var topSpeed = document.createElement('td');
+        var year = document.createElement('td');
+        var distance = document.createElement('td');
+
+        name.textContent = vehicle.vehicle;
+        topSpeed.textContent = vehicle.topSpeed;
+        topSpeed.className = "text-center"
+        year.textContent = vehicle.year;
+        year.className = "text-center"
+        distance.className = "text-center";
+
+        row.appendChild(name);
+        row.appendChild(topSpeed);
+        row.appendChild(year);
+        row.appendChild(distance);
+        table.appendChild(row);
+
+        // Distance calculation and rendering update.
+        var perSecond = vehicle.topSpeed / 60 / 60;
+        var startTime = new Date(vehicle.year, 1, 1, 0 ,0, 0, 0).getTime() / 1000;
+
+        var updateDistance = () => {
+          var endTime = new Date().getTime() / 1000;
+          
+          distance.textContent = number.format((endTime - startTime) * perSecond);
+        };
+
+        updateDistance();
+        setInterval(
+          updateDistance,
+          2000
+        );
+      });
+
+      $('table').DataTable({
+        order: [[3, 'desc']],
+        paging: false
+      });
+    </script>
+  </body>
+</html>

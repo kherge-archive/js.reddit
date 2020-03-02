@@ -9,6 +9,8 @@ import initial from '../../config/vehicles.json';
 import sortVehicleProps from '../../utils/sortVehicleProps';
 import Unit from '../Unit/Unit';
 
+import './VehiclesContainer.css';
+
 export enum UnitType {
   KMH,
   MPH
@@ -107,7 +109,7 @@ const VehiclesContainer: FunctionComponent = () => {
 
   return (
     <>
-      <div className="row">
+      <div className="row controls">
         <div className="col">
           <Filter filter={setFilter}/>
         </div>

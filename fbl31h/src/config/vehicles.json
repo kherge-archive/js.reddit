@@ -25,6 +25,5 @@
     { "make": "Duesenberg", "model": "Model SJ", "topSpeed": 140, "year": 1930 },
     { "make": "Ferrari", "model": "GT4 Berlinetta Boxer", "topSpeed": 175, "year": 1970 },
     { "make": "Ferrari", "model": "F40", "topSpeed": 202, "year": 1980 },
-    { "make": "McLaren", "model": "F1", "topSpeed": 240, "year": 1990 },
     { "make": "Hennessey", "model": "Venom GT", "topSpeed": 270, "year": 2011 }
 ]

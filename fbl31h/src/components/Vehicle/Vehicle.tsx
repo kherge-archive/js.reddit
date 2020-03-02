@@ -14,10 +14,17 @@ export type VehicleProps = {
 };
 
 /**
- * The number formatter.
+ * The number formatter for distance.
  */
-const number = new Intl.NumberFormat('en-US', {
+const distanceFormat = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2
+});
+
+/**
+ * The number formatter for speed.
+ */
+const speedFormat = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 1
 });
 
 /**
@@ -28,8 +35,8 @@ const Vehicle: FunctionComponent<VehicleProps> = ({ distance, make, model, topSp
     <td>{year}</td>
     <td className="d-none d-md-block">{make}</td>
     <td>{model}</td>
-    <td className="d-none d-md-block">{topSpeed}</td>
-    <td>{number.format(distance)}</td>
+    <td className="d-none d-md-block">{speedFormat.format(topSpeed)}</td>
+    <td>{distanceFormat.format(distance)}</td>
   </tr>
 );
 

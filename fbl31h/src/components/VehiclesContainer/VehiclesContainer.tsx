@@ -7,6 +7,12 @@ import Vehicles from '../Vehicles';
 import calculateDistance from '../../utils/calculateDistance';
 import initial from '../../config/vehicles.json';
 import sortVehicleProps from '../../utils/sortVehicleProps';
+import Unit from '../Unit/Unit';
+
+export enum UnitType {
+  KMH,
+  MPH
+}
 
 /**
  * The list of vehicle entries from the JSON.
@@ -55,12 +61,22 @@ const VehiclesContainer: FunctionComponent = () => {
     });
   }
 
+  // Convert unit type.
+  let [unitType, setUnitType] = useState(UnitType.MPH);
+
   // Convert the entries to props.
   let props: VehicleProps[] = entries.map(entry => {
+    let topSpeed = entry.topSpeed;
+
+    if (unitType === UnitType.KMH) {
+      topSpeed *= 1.609344;
+    }
+
     return {
       ...entry,
       distance: calculateDistance(date, entry.year, entry.topSpeed),
-      key: entry.make + ' ' + entry.model
+      key: entry.make + ' ' + entry.model,
+      topSpeed
     };
   });
 
@@ -91,7 +107,14 @@ const VehiclesContainer: FunctionComponent = () => {
 
   return (
     <>
-      <Filter filter={setFilter}/>
+      <div className="row">
+        <div className="col">
+          <Filter filter={setFilter}/>
+        </div>
+        <div className="col-md-auto">
+          <Unit setUnitType={setUnitType} unitType={unitType}/>
+        </div>
+      </div>
       <Vehicles sort={sortByField}>
         {props.map(prop => <Vehicle {...prop}/>)}
       </Vehicles>

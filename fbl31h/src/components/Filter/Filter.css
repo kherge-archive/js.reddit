@@ -1,0 +1,7 @@
+.filter {
+  margin-bottom: 10px;
+}
+
+.filter .input-group-prepend {
+  cursor: default;
+}

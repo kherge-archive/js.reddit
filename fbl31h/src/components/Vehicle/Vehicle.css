@@ -1,0 +1,4 @@
+.vehicle > td:last-child,
+.vehicle > td:nth-last-child(2) {
+  text-align: center;
+}

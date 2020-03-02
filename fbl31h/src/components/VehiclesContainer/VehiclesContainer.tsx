@@ -74,7 +74,7 @@ const VehiclesContainer: FunctionComponent = () => {
 
     return {
       ...entry,
-      distance: calculateDistance(date, entry.year, entry.topSpeed),
+      distance: calculateDistance(date, entry.year, topSpeed),
       key: entry.make + ' ' + entry.model,
       topSpeed
     };

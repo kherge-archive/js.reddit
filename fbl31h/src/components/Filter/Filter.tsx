@@ -17,7 +17,7 @@ const Filter: FunctionComponent<FilterProps> = ({ filter }) => (
     <div className="input-group-prepend">
       <span className="input-group-text">Filter</span>
     </div>
-    <input className="form-control" onChange={(e) => filter(e.target.value)} type="search"/>
+    <input className="form-control" data-testid="filter" onChange={(e) => filter(e.target.value)} type="search"/>
   </div>
 );
 

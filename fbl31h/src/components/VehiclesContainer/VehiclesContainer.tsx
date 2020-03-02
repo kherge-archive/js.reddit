@@ -128,6 +128,7 @@ const VehiclesContainer: FunctionComponent = () => {
         </div>
         <div className="col-md-auto">
           <DatePicker 
+            calendarIcon={null}
             format="y" 
             maxDetail="year" 
             minDetail="year" 

@@ -1,13 +1,17 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+/// <reference path="react-chartkick.d.ts" />
+import { LineChart } from 'react-chartkick';
+import 'chart.js';
 
 import Filter from '../Filter';
+import Unit from '../Unit/Unit';
 import Vehicle, { VehicleProps } from '../Vehicle';
 import Vehicles from '../Vehicles';
 
 import calculateDistance from '../../utils/calculateDistance';
+import calculateLineData from '../../utils/calculateLineData';
 import initial from '../../config/vehicles.json';
 import sortVehicleProps from '../../utils/sortVehicleProps';
-import Unit from '../Unit/Unit';
 
 import './VehiclesContainer.css';
 
@@ -19,7 +23,7 @@ export enum UnitType {
 /**
  * The list of vehicle entries from the JSON.
  */
-type Entries = Entry[];
+export type Entries = Entry[];
 
 /**
  * The vehicle entry from the JSON data.
@@ -82,6 +86,9 @@ const VehiclesContainer: FunctionComponent = () => {
     };
   });
 
+  // Generate line chart data.
+  const chartData = calculateLineData(props, date);
+
   // Sort the list of entries.
   let [sort, setSort] = useState({
     asc: false,
@@ -117,6 +124,7 @@ const VehiclesContainer: FunctionComponent = () => {
           <Unit setUnitType={setUnitType} unitType={unitType}/>
         </div>
       </div>
+      <LineChart data={chartData} legend={false} round={2} thousands=","/>
       <Vehicles sort={sort} sortByField={sortByField}>
         {props.map(prop => <Vehicle {...prop}/>)}
       </Vehicles>

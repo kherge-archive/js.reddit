@@ -2,6 +2,7 @@
   "name": "fbl31h",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kevin.herrera.io/js.reddit/fbl31h/build/",
   "dependencies": {
     "@types/node": "^12.12.29",
     "@types/react": "^16.9.23",

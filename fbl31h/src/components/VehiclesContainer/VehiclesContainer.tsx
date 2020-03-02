@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import DatePicker from 'react-date-picker';
 /// <reference path="react-chartkick.d.ts" />
 import { LineChart } from 'react-chartkick';
 import 'chart.js';
@@ -40,16 +41,21 @@ type Entry = {
  */
 const VehiclesContainer: FunctionComponent = () => {
 
+  // Override auto updater with selected date.
+  const [pickedDate, setPickedDate] = useState<Date | undefined>(undefined);
+
   // Recalculate the distance on a regular interval.
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(
-      () => setDate(new Date()),
-      2000
-    );
+    if (!pickedDate) {
+      const interval = setInterval(
+        () => setDate(new Date()),
+        2000
+      );
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   });
 
   // The initial list of vehicle entries.
@@ -80,14 +86,14 @@ const VehiclesContainer: FunctionComponent = () => {
 
     return {
       ...entry,
-      distance: calculateDistance(date, entry.year, topSpeed),
+      distance: calculateDistance(pickedDate || date, entry.year, topSpeed),
       key: entry.make + ' ' + entry.model,
       topSpeed
     };
   });
 
   // Generate line chart data.
-  const chartData = calculateLineData(props, date);
+  const chartData = calculateLineData(props, pickedDate || date);
 
   // Sort the list of entries.
   let [sort, setSort] = useState({
@@ -119,6 +125,14 @@ const VehiclesContainer: FunctionComponent = () => {
       <div className="row controls">
         <div className="col">
           <Filter filter={setFilter}/>
+        </div>
+        <div className="col-md-auto">
+          <DatePicker 
+            format="y" 
+            maxDetail="year" 
+            minDetail="year" 
+            onChange={(date) => setPickedDate(Array.isArray(date) ? date[0] : date)} 
+            value={pickedDate}/>
         </div>
         <div className="col-md-auto">
           <Unit setUnitType={setUnitType} unitType={unitType}/>

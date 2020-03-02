@@ -16,5 +16,15 @@
     { "make": "Bugatti", "model": "Veyron EB 16.4", "topSpeed": 253.81, "year": 2005 },
     { "make": "SSC", "model": "Ultimate Aero TT", "topSpeed": 256.18, "year": 2007 },
     { "make": "Bugatti", "model": "Veyron 16.4 Super Sport", "topSpeed": 267.856, "year": 2010 },
-    { "make": "Koenigsegg", "model": "Agera RS", "topSpeed": 277.87, "year": 2017 }
+    { "make": "Koenigsegg", "model": "Agera RS", "topSpeed": 277.87, "year": 2017 },
+
+    { "make": "Stanley", "model": "Runabout", "topSpeed": 35, "year": 1890 },
+    { "make": "Mercedes", "model": "Simplex", "topSpeed": 60, "year": 1900 },
+    { "make": "Austro-Daimler", "model": "Prince Henry", "topSpeed": 85, "year": 1910 },
+    { "make": "Duesenberg", "model": "Model J", "topSpeed": 119, "year": 1920 },
+    { "make": "Duesenberg", "model": "Model SJ", "topSpeed": 140, "year": 1930 },
+    { "make": "Ferrari", "model": "GT4 Berlinetta Boxer", "topSpeed": 175, "year": 1970 },
+    { "make": "Ferrari", "model": "F40", "topSpeed": 202, "year": 1980 },
+    { "make": "McLaren", "model": "F1", "topSpeed": 240, "year": 1990 },
+    { "make": "Hennessey", "model": "Venom GT", "topSpeed": 270, "year": 2011 }
 ]

@@ -115,7 +115,7 @@ const VehiclesContainer: FunctionComponent = () => {
           <Unit setUnitType={setUnitType} unitType={unitType}/>
         </div>
       </div>
-      <Vehicles sort={sortByField}>
+      <Vehicles sort={sort} sortByField={sortByField}>
         {props.map(prop => <Vehicle {...prop}/>)}
       </Vehicles>
     </>

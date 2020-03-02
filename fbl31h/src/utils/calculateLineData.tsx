@@ -16,11 +16,12 @@ const calculateLineData = (entries: Entries, newest: Date) => {
   const data: DataType[] = [];
   const oldest = newDate(entries.reduce((p, n) => p.year > n.year ? n : p).year);
   const points: Date[] = [newest];
+  const offset = Math.ceil((newest.getFullYear() - oldest.getFullYear()) / 10) * -1;
 
-  for (let i = 0, point = nextDecade(newest, -10); point >= oldest; i++, point = nextDecade(point, -10)) {
+  for (let i = 0, point = nextDecade(newest, offset); point >= oldest; i++, point = nextDecade(point, offset)) {
     points.push(point);
 
-    if (i === 10) {
+    if (i === 8) {
       break;
     }
   }

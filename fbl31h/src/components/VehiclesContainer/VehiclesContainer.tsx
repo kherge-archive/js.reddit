@@ -129,9 +129,7 @@ const VehiclesContainer: FunctionComponent = () => {
         <div className="col-md-auto">
           <DatePicker 
             calendarIcon={null}
-            format="y" 
-            maxDetail="year" 
-            minDetail="year" 
+            className="form-control"
             onChange={(date) => setPickedDate(Array.isArray(date) ? date[0] : date)} 
             value={pickedDate}/>
         </div>

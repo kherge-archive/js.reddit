@@ -3,3 +3,7 @@
     margin-bottom: 8px;
   }
 }
+
+.react-date-picker__wrapper {
+  border: none;
+}

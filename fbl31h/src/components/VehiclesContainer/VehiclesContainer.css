@@ -6,6 +6,7 @@
 
 .chart {
   margin: 20px 0;
+  overflow-x: auto;
 }
 
 .input-group-text {

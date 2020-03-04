@@ -94,6 +94,9 @@ const VehiclesContainer: FunctionComponent = () => {
 
   // Generate line chart data.
   const chartData = calculateLineData(props, pickedDate || date);
+  let chartWidth = 100 + (50 * chartData
+    .map(data => Object.keys(data.data).length)
+    .reduce((p, c) => p > c ? p : c));
 
   // Sort the list of entries.
   let [sort, setSort] = useState({
@@ -144,7 +147,13 @@ const VehiclesContainer: FunctionComponent = () => {
         </div>
       </div>
       <div className="chart">
-        <LineChart data={chartData} height="600px" legend={false} round={2} thousands=","/>
+        <LineChart 
+          data={chartData} 
+          height="600px" 
+          legend={false} 
+          round={2} 
+          thousands=","
+          width={chartWidth + "px"}/>
       </div>
       <Vehicles sort={sort} sortByField={sortByField}>
         {props.map(prop => <Vehicle {...prop}/>)}

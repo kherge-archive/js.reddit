@@ -4,46 +4,64 @@ import { DataType } from 'react-chartkick';
 import { Entries } from '../components/VehiclesContainer';
 import calculateDistance from './calculateDistance';
 
-const newDate = (year: number) => new Date(year, 11, 31, 23, 59, 59);
-
-const nextDecade = (date: Date, offset: number) => {
-  const decade = (Math.ceil(date.getFullYear() / 10) * 10) + offset;
-
-  return newDate(decade);
+type MappedPoints = {
+  [key: string]: {
+    [key: string]: number
+  }
 };
 
-const calculateLineData = (entries: Entries, newest: Date) => {
-  const data: DataType[] = [];
-  const oldest = newDate(entries.reduce((p, n) => p.year > n.year ? n : p).year);
-  const points: Date[] = [newest];
-  const offset = Math.ceil((newest.getFullYear() - oldest.getFullYear()) / 10) * -1;
+const calculateLineData = (entries: Entries, now: Date) => {
+  const data: MappedPoints = {};
+  const points: Date[] = calculatePoints(entries, now);
 
-  for (let i = 0, point = nextDecade(newest, offset); point >= oldest; i++, point = nextDecade(point, offset)) {
-    points.push(point);
+  points.forEach(point => {
+    entries.forEach(entry => {
+      const key = entry.year + ' ' + entry.make + ' ' + entry.model;
+      const year = point.getFullYear();
 
-    if (i === 8) {
-      break;
-    }
-  }
+      if (year >= entry.year) {
+        if (typeof data[key] === 'undefined') {
+          data[key] = {};
+        }
 
-  points.push(oldest);
-
-  entries.forEach(entry => {
-    let entryData: {[key: string]: number} = {};
-
-    points.forEach(point =>
-      entryData[point.getFullYear().toString()] = (point.getFullYear() >= entry.year) 
-        ? calculateDistance(point, entry.year, entry.topSpeed)
-        : 0
-    );
-
-    data.push({
-      data: entryData,
-      name: entry.year + ' ' + entry.model + ' ' + entry.make
+        data[key][year] = calculateDistance(point, entry.year, entry.topSpeed);
+      }
     });
   });
 
-  return data;
+  return Object.keys(data).map(key => ({
+    data: data[key],
+    name: key
+  })) as DataType[];
+};
+
+const calculatePoints = (entries: Entries, now: Date) => {
+  const lastYear = entries
+    .reduce((p, c) => p.year > c.year ? p : c)
+    .year;
+  const nowYear = now.getFullYear();
+  const points: Date[] = entries
+    .sort((a, b) => a.year - b.year)
+    .map(({ year }) => new Date(year, 0, 1, 0, 0, 0, 0));
+
+  let deltas = 0;
+  let range = 0;
+
+  if ((deltas = (nowYear - lastYear) / 100) > 1) {
+    range = 100;
+  } else if ((deltas = (nowYear - lastYear) / 10) > 1) {
+    range = 10;
+  } else {
+    deltas = 0;
+  }
+
+  for (let i = 0; i < deltas; i++) {
+    points.push(new Date(lastYear + (i * range), 0, 1, 0, 0, 0, 0));
+  }
+
+  points.push(now);
+
+  return points;
 };
 
 export default calculateLineData;

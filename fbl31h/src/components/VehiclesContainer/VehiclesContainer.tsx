@@ -127,12 +127,17 @@ const VehiclesContainer: FunctionComponent = () => {
           <Filter filter={setFilter}/>
         </div>
         <div className="col-md-auto">
-          <DatePicker 
-            calendarIcon={null}
-            className="form-control"
-            format="y-MM-dd"
-            onChange={(date) => setPickedDate(Array.isArray(date) ? date[0] : date)} 
-            value={pickedDate}/>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <div className="input-group-text">📅</div>
+            </div>
+            <DatePicker 
+              calendarIcon={null}
+              className="form-control"
+              format="y-MM-dd"
+              onChange={(date) => setPickedDate(Array.isArray(date) ? date[0] : date)} 
+              value={pickedDate}/>
+          </div>
         </div>
         <div className="col-md-auto">
           <Unit setUnitType={setUnitType} unitType={unitType}/>

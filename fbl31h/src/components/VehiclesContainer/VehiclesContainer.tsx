@@ -143,7 +143,9 @@ const VehiclesContainer: FunctionComponent = () => {
           <Unit setUnitType={setUnitType} unitType={unitType}/>
         </div>
       </div>
-      <LineChart data={chartData} legend={false} round={2} thousands=","/>
+      <div className="chart">
+        <LineChart data={chartData} height="600px" legend={false} round={2} thousands=","/>
+      </div>
       <Vehicles sort={sort} sortByField={sortByField}>
         {props.map(prop => <Vehicle {...prop}/>)}
       </Vehicles>

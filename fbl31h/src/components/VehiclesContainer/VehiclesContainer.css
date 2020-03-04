@@ -1,7 +1,11 @@
 @media (max-width: 719px) {
-  .controls {
+  .controls > .col-md-auto {
     margin-bottom: 8px;
   }
+}
+
+.input-group-text {
+  cursor: default;
 }
 
 .react-date-picker__wrapper {

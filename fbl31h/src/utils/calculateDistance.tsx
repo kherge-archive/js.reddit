@@ -11,7 +11,7 @@
  */
 const calculateDistance = (now: Date, year: number, topSpeed: number) => {
   const speed = topSpeed / 60 / 60 / 1000;
-  const then = new Date(year, 1, 1, 0, 0, 0, 0);
+  const then = new Date(year, 0, 1, 0, 0, 0, 0);
 
   return (now.getTime() - then.getTime()) * speed;
 };

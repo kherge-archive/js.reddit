@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Distance Covered",
+  "name": "A simple little project that attempts to answer a Reddit post.",
   "icons": [
     {
       "src": "favicon.ico",
